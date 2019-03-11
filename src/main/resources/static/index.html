@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link href="../static/style.css" type="text/css" rel="stylesheet" />
+	<script src="/webjars/jquery/3.1.0/jquery.min.js"></script>
+	<script src="/webjars/sockjs-client/1.0.2/sockjs.min.js"></script>
+	<script src="/webjars/stomp-websocket/2.3.3/stomp.min.js"></script>
+</head>
+<body>
+<form method="post">
+	<input type="text" class="nickname" />
+	<input type="password" class="password" />
+	<input class="btn" type="button" value="add user" />
+</form>
+
+<form method="post">
+	<input type="text" class="lnickname" />
+	<input type="password" class="lpassword" />
+	<select>
+	
+	</select>
+	<input class="lbtn" type="button" value="login" />
+</form>
+<script>
+var index=0;
+
+$(document).ready(function() {
+	findAll();
+	findAllChannels();
+});
+
+function guid() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+    s4() + '-' + s4() + s4() + s4();
+}
+
+function showData(json){
+	console.log(json);
+	for(var i=index;i<json.length;i++){
+		$("ul").append($("<li>"+json[i].id+": "+json[i].nickname+"</li>"));
+		index=i;
+	}
+	index+=1;
+}
+
+function findAll(){
+	$.ajax({
+		method: "GET",
+		contentType: "application/json",
+		url: "http://localhost:8080/api/findAll",
+		dataType: 'json',
+		jsonpCallback: "showData",
+		success: function(json) {
+			showData(json);
+		}
+	});
+}
+
+function findAllChannels(){
+	$.ajax({
+		method: "GET",
+		contentType: "application/json",
+		url: "http://localhost:8080/api/findAllChannels",
+		dataType: 'json',
+		success: function(json) {
+			console.log(json);
+			for(var i=0;i<json.length;i++){
+				$("select").append($("<option>"+json[i].channelname+"</option>"));
+			}
+		}
+	});
+}
+
+$(function(){
+	$('input.btn').on('click', function(e){
+		console.log("ok");
+		var uuid=guid();
+		var user = {
+			"id":uuid,
+			"nickname":$('input.nickname').val(),
+			"password":$('input.password').val()
+		}
+		$.ajax({
+		method: "POST",
+		contentType: "application/json",
+		url: "http://localhost:8080/api/save",
+		data: JSON.stringify(user),
+		dataType: 'json',
+		success: function(answer) {
+		if(answer==true){
+			alert("Success registration!");
+		} else {
+			alert("Nickname is used");
+		}
+		}
+		});
+	});
+	
+	$('input.lbtn').on('click', function(e){
+		var user = {
+			"nickname":$('input.lnickname').val(),
+			"password":$('input.lpassword').val(),
+			"connchannel":$('select').val()
+		}
+		console.log($('select').val());
+		$.ajax({
+		method: "POST",
+		contentType: "application/json",
+		url: "http://localhost:8080/api/login",
+		data: JSON.stringify(user),
+		dataType: 'json',
+		success: function(data) {
+			if(data==false){
+				alert("You can't login");
+			}
+			if(data==true){
+				var nick=$('input.lnickname').val();
+				window.location.replace("chat#"+nick);
+			}
+		},
+		error: function(data) {
+			console.log(data);
+		}
+		});
+	});
+});
+</script>
+</body>
+</html>
