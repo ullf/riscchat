@@ -52,7 +52,7 @@ function findAll(){
 	$.ajax({
 		method: "GET",
 		contentType: "application/json",
-		url: "http://mighty-shelf-55003.herokuapp.com/api/findAll",
+		url: "https://mighty-shelf-55003.herokuapp.com/api/findAll",
 		dataType: 'json',
 		jsonpCallback: "showData",
 		success: function(json) {
@@ -65,7 +65,7 @@ function findAllChannels(){
 	$.ajax({
 		method: "GET",
 		contentType: "application/json",
-		url: "http://mighty-shelf-55003.herokuapp.com/api/findAllChannels",
+		url: "https://mighty-shelf-55003.herokuapp.com/api/findAllChannels",
 		dataType: 'json',
 		success: function(json) {
 			console.log(json);
@@ -88,7 +88,7 @@ $(function(){
 		$.ajax({
 		method: "POST",
 		contentType: "application/json",
-		url: "http://mighty-shelf-55003.herokuapp.com/api/save",
+		url: "https://mighty-shelf-55003.herokuapp.com/api/save",
 		data: JSON.stringify(user),
 		dataType: 'json',
 		success: function(answer) {
@@ -111,7 +111,7 @@ $(function(){
 		$.ajax({
 		method: "POST",
 		contentType: "application/json",
-		url: "http://mighty-shelf-55003.herokuapp.com/api/login",
+		url: "https://mighty-shelf-55003.herokuapp.com/api/login",
 		data: JSON.stringify(user),
 		dataType: 'json',
 		success: function(data) {

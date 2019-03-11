@@ -33,7 +33,7 @@ $(document).ready(function() {
 	$.ajax({
 		method: "POST",
 		contentType: "application/json",
-		url: "http://mighty-shelf-55003.herokuapp.com/api/check",
+		url: "https://mighty-shelf-55003.herokuapp.com/api/check",
 		data:user,
 		dataType: 'json',
 		success: function(json) {
@@ -49,7 +49,7 @@ $(document).ready(function() {
 
 });
 
-var socket = new SockJS('http://mighty-shelf-55003.herokuapp.com/gs-guide-websocket');
+var socket = new SockJS('https://mighty-shelf-55003.herokuapp.com/gs-guide-websocket');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
     stompClient.subscribe('/mess/send', function (greeting) {
@@ -85,7 +85,7 @@ $('input.logout').on('click', function(e){
 	$.ajax({
 		method: "POST",
 		contentType: "application/json",
-		url: "http://mighty-shelf-55003.herokuapp.com/api/logout",
+		url: "https://mighty-shelf-55003.herokuapp.com/api/logout",
 		data:user,
 		dataType: 'json',
 		success: function(json) {
@@ -128,7 +128,7 @@ function findAllConnected(){
 	$.ajax({
 		method: "POST",
 		contentType: "application/json",
-		url: "http://mighty-shelf-55003.herokuapp.com/api/usersconnected",
+		url: "https://mighty-shelf-55003.herokuapp.com/api/usersconnected",
 		data:user,
 		dataType: 'json',
 		success: function(json) {
