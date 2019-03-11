@@ -52,7 +52,7 @@ function findAll(){
 	$.ajax({
 		method: "GET",
 		contentType: "application/json",
-		url: "http://localhost:8080/api/findAll",
+		url: "http://localhost/api/findAll",
 		dataType: 'json',
 		jsonpCallback: "showData",
 		success: function(json) {
@@ -65,7 +65,7 @@ function findAllChannels(){
 	$.ajax({
 		method: "GET",
 		contentType: "application/json",
-		url: "http://localhost:8080/api/findAllChannels",
+		url: "http://localhost/api/findAllChannels",
 		dataType: 'json',
 		success: function(json) {
 			console.log(json);
@@ -88,7 +88,7 @@ $(function(){
 		$.ajax({
 		method: "POST",
 		contentType: "application/json",
-		url: "http://localhost:8080/api/save",
+		url: "http://localhost/api/save",
 		data: JSON.stringify(user),
 		dataType: 'json',
 		success: function(answer) {
@@ -111,7 +111,7 @@ $(function(){
 		$.ajax({
 		method: "POST",
 		contentType: "application/json",
-		url: "http://localhost:8080/api/login",
+		url: "http://localhost/api/login",
 		data: JSON.stringify(user),
 		dataType: 'json',
 		success: function(data) {
