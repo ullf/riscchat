@@ -8,19 +8,25 @@
 </head>
 <body>
 <form method="post">
-	<input type="text" class="nickname" />
-	<input type="password" class="password" />
+	<input type="text" class="nickname" placeholder="nickname" />
+	<input type="password" class="password" placeholder="password" />
 	<input class="btn" type="button" value="add user" />
 </form>
 
 <form method="post">
-	<input type="text" class="lnickname" />
-	<input type="password" class="lpassword" />
+	<input type="text" class="lnickname" placeholder="nickname" />
+	<input type="password" class="lpassword"  placeholder="password" />
 	<select>
 	
 	</select>
 	<input class="lbtn" type="button" value="login" />
 </form>
+<p class="onmessage"></p>
+<style>
+	.onmessage {
+		visibility:hidden;
+	}
+</style>
 <script>
 var index=0;
 
@@ -85,20 +91,38 @@ $(function(){
 			"nickname":$('input.nickname').val(),
 			"password":$('input.password').val()
 		}
-		$.ajax({
+		if($('input.password').val().length<6){
+			$('.onmessage').html("Длина пароля должна быть 6 или больше символов");
+			$('.onmessage').css({'visibility':'visible'})
+			$('.onmessage').css({'color':'red'})
+			setTimeout(function(){ $('.onmessage').css({'visibility':'hidden'}) }, 5000);
+		} else if ($('input.nickname').val().length<3){ 
+			$('.onmessage').html("Длина ника должна быть 3 или больше символов");
+			$('.onmessage').css({'visibility':'visible'})
+			$('.onmessage').css({'color':'red'})
+			setTimeout(function(){ $('.onmessage').css({'visibility':'hidden'}) }, 5000);
+		} else {
+			$.ajax({
 		method: "POST",
 		contentType: "application/json",
-		url: "https://riscchat.herokuapp.com/api/save",
+		url: "http://localhost:8080/api/save",
 		data: JSON.stringify(user),
 		dataType: 'json',
 		success: function(answer) {
 		if(answer==true){
-			alert("Success registration!");
+			$('.onmessage').html("Success registration!");
+			$('.onmessage').css({'visibility':'visible'})
+			$('.onmessage').css({'color':'green'})
+			setTimeout(function(){ $('.onmessage').css({'visibility':'hidden'}) }, 5000);
 		} else {
-			alert("Nickname is used");
+			$('.onmessage').html("Nickname is used");
+			$('.onmessage').css({'visibility':'visible'})
+			$('.onmessage').css({'color':'red'})
+			setTimeout(function(){ $('.onmessage').css({'visibility':'hidden'}) }, 5000);
 		}
 		}
 		});
+		}
 	});
 	
 	$('input.lbtn').on('click', function(e){
@@ -116,7 +140,10 @@ $(function(){
 		dataType: 'json',
 		success: function(data) {
 			if(data==false){
-				alert("You can't login");
+				$('.onmessage').html("You can't login. Something is wrong!");
+				$('.onmessage').css({'visibility':'visible'})
+				$('.onmessage').css({'color':'red'})
+				setTimeout(function(){ $('.onmessage').css({'visibility':'hidden'}) }, 5000);
 			}
 			if(data==true){
 				var nick=$('input.lnickname').val();
